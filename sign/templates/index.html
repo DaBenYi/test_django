@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block base %}
+<div class="container" style="width: 300px">
+      <form class="form-signin" action="/index/" method="post">
+        <h2 class="form-signin-heading" style="text-align: center">品茗测试平台</h2>
+        <label for="inputusername" class="sr-only">账号</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="username"  >
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> 记住密码
+          </label>
+        </div>
+          <div style="color: red">{{ error }}</div>
+          {% csrf_token %}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+      </form>
+    </div> <!-- /container -->
+{% endblock %}
