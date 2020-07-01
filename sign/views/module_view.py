@@ -17,11 +17,58 @@ def add_module(request):
     if request.method == "GET":
         module = ModuleForm()
         return render(request, "module_manage.html", {"type":"add","form":module})
-    # elif request.method == "POST":
-    #     project_name = request.POST.get("project_name", "")
-    #     project_describle = request.POST.get("project_describle", "")
-    #     status = request.POST.get("status", "")
-    #     if project_name == "":
-    #         return render(request, "project_manage.html", {"type":"add","name_error":"项目名称不能为空"})
-    #     Project.objects.create(name=project_name,describle=project_describle,status=status)
-    #     return HttpResponseRedirect('/project/')
+    if request.method == "POST":
+        form = ModuleForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            describle = form.cleaned_data['describle']
+            project = form.cleaned_data['project']
+            #保存更新
+            Module.objects.create(project=project,name=name,describle=describle)
+        else:
+            print("创建失败")
+        return HttpResponseRedirect('/module/')
+
+@login_required()
+def edit_module(request,mid):
+    '''
+    编辑项目
+    :param request:
+    :return:
+    '''
+    if request.method == "GET":
+        module = Module.objects.get(id=mid)
+        form = ModuleForm(instance=module)
+        return render(request, "module_manage.html", {"type":"edit",
+                                                       "form":form,
+                                                       "mid":mid
+                                                       })
+    elif request.method == "POST":
+        form = ModuleForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            describle = form.cleaned_data['describle']
+            project = form.cleaned_data['project']
+            #保存更新
+            p = Module.objects.get(id=mid)
+            p.project = project
+            p.name = name
+            p.describle = describle
+            p.save()
+        return HttpResponseRedirect('/module/')
+
+@login_required()
+def delete_module(request, mid):
+    '''
+    删除项目
+    '''
+    if request.method == "GET":
+        try:
+            module = Module.objects.get(id=mid)
+        except module.DoseNotExist:
+            return HttpResponseRedirect('/delete_module/')
+        else:
+            module.delete()
+        return HttpResponseRedirect('/module/')
+    else:
+        return HttpResponseRedirect('/module/')
