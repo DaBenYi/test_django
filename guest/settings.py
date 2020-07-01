@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sign',
+    'project_app',
+    'module_app',
+    'user_app',
     'bootstrap3',
 ]
 
@@ -56,7 +58,7 @@ ROOT_URLCONF = 'guest.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],#指定当前模板路径
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

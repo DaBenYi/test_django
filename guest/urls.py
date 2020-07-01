@@ -14,27 +14,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from sign.views import login_view,project_view,module_view
+from user_app import views
+from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',login_view.index),
-    path('index/', login_view.index),  # 登录路径
-    path('logout/', login_view.logout),  # 退出登录
-    path('accounts/login/', login_view.index),  # 重定向到登录路径
 
-    # 模块管理
-    path('module/', module_view.module_manage),#模块页面
-    path('module/add_module/',module_view.add_module),#增加模块
-    path('module/edit_module/<int:mid>/', module_view.edit_module),  # 编辑模块
-    path('module/delete_module/<int:mid>/', module_view.delete_module),  # 删除项目
+    #用户应用
+    path('',views.index),
+    path('index/', views.index),  # 登录路径
+    path('logout/', views.logout),  # 退出登录
+    path('accounts/login/', views.index),  # 重定向到登录路径
+
     # 项目管理
-    path('project/', project_view.project_manage),  # 首页面路径
-    path('project/add_project/', project_view.add_project),#增加项目
-    path('project/edit_project/<int:pid>/', project_view.edit_project),#编辑项目
-    path('project/delete_project/<int:pid>/',project_view.delete_project),#删除项目
-
-
+    path('project/', include('project_app.urls')),
+    # 模块管理
+    path('module/', include('module_app.urls')),
 
 ]
