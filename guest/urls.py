@@ -27,6 +27,8 @@ urlpatterns = [
     # 模块管理
     path('module/', module_view.module_manage),#模块页面
     path('module/add_module/',module_view.add_module),#增加模块
+    path('module/edit_module/<int:mid>/', module_view.edit_module),  # 编辑模块
+    path('module/delete_module/<int:mid>/', module_view.delete_module),  # 删除项目
     # 项目管理
     path('project/', project_view.project_manage),  # 首页面路径
     path('project/add_project/', project_view.add_project),#增加项目
